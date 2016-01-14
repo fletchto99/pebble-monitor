@@ -1,0 +1,32 @@
+{
+  "name": "pebble-monitor",
+  "version": "10.3.1",
+  "description": "An example module to illustrate the usage of a package.json",
+  "author": "Matt Langlois <fletchto99@gmail.com> (https://fletchto99.com)",
+  "contributors": [
+    {
+      "name": "Kurt Bruneau",
+      "email": "kurt.bruneau@gmail.com"
+    }
+  ],
+  "main": "monitor.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fletchto99/pebble-monitor"
+  },
+  "bugs": {
+    "url": "https://github.com/fletchto99/pebble-monitor/issues"
+  },
+  "keywords": [
+    "pebble",
+    "monitor"
+  ],
+  "dependencies": {
+    "body-parser": "^1.14.2",
+    "express": "^4.13.3",
+    "express-ws": "^0.2.6",
+    "pebble-api": "^0.2.2"
+  },
+  "analyze": true,
+  "license": "MIT"
+}
