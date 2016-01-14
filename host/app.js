@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var path = require('path');
+var config = require('./config.json');
 
 /**
  * Subscribe to multiple data sources
@@ -32,11 +33,11 @@ function subscribe(subs, cb, repeat, lastTime) {
     });
 }
 
-var profile = require('./profile/linux.json').map(function(filename) {
+var profile = require('./profile/' + config.profile + '.json').map(function(filename) {
     return require('./subscription/' + filename);
 });
 
 subscribe(profile, function(err, components) {
     if (err) return;
     console.log(components);
-}, 1000);
+}, config.pollInterval);
