@@ -1,7 +1,7 @@
 {
-  "name": "pebble-monitor",
-  "version": "10.3.1",
-  "description": "An example module to illustrate the usage of a package.json",
+  "name": "pebble-monitor-server",
+  "version": "1.0.0",
+  "description": "Server than handles communication between pebble app and host app",
   "author": "Matt Langlois <fletchto99@gmail.com> (https://fletchto99.com)",
   "contributors": [
     {

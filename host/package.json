@@ -1,0 +1,26 @@
+{
+  "name": "pebble-monitor-host",
+  "version": "1.0.0",
+  "description": "Host service that collects hardware information for pebble-monitor",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fletchto99/pebble-monitor.git"
+  },
+  "author": "Kurt Bruneau <kurt.bruneau@gmail.com>",
+  "contributors": [
+    {
+      "name": "Matt Langlois",
+      "email": "fletchto99@gmail.com"
+    }
+  ],
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/fletchto99/pebble-monitor/issues"
+  },
+  "homepage": "https://github.com/fletchto99/pebble-monitor#readme",
+  "dependencies": {
+    "request": "^2.67.0",
+    "ws": "^1.0.1"
+  }
+}
