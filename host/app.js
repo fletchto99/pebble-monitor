@@ -2,6 +2,11 @@
 
 var path = require('path');
 var config = require('./config.json');
+var WebSocket = require('ws');
+
+var profile = require('./profile/' + config.profile + '.json').map(function(filename) {
+    return require('./subscription/' + filename);
+});
 
 /**
  * Subscribe to multiple data sources
@@ -33,11 +38,21 @@ function subscribe(subs, cb, repeat, lastTime) {
     });
 }
 
-var profile = require('./profile/' + config.profile + '.json').map(function(filename) {
-    return require('./subscription/' + filename);
-});
+var request = require('request');
+var url = 'http://' + config.server + ':' + config.port + '/generate';
+request(url, function (err, response, body) {
+    if (err) return console.error(err);
+    if (response.statusCode != 200) {
+        return console.error('HTTP', response.statusCode);
+    }
 
-subscribe(profile, function(err, components) {
-    if (err) return;
-    console.log(components);
-}, config.pollInterval);
+    var token = JSON.parse(body).token;
+    var ws = new WebSocket('http://' + config.server + ':' + config.port + '/send?token=' + token);
+
+    ws.on('open', function() {
+        subscribe(profile, function(err, components) {
+            if (err) return;
+            ws.send(JSON.stringify(components));
+        }, config.pollInterval);
+    });
+});

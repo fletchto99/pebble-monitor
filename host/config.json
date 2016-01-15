@@ -1,4 +1,6 @@
 {
     "profile": "linux",
-    "pollInterval": 1000
+    "pollInterval": 1000,
+    "server": "localhost",
+    "port": 8080
 }
