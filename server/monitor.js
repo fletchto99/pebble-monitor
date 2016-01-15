@@ -37,16 +37,16 @@ app.get('/generate', function(request, response) {
     };
 
     response.json({
-        registration_code: token
+        token: token
     });
 });
 
 app.ws('/send', function(ws, request) {
 
-    var token = request.get("client_id");
+    var token = request.get("token");
 
     if (!token) {
-        ws.close(1002, "No client_id specified");
+        ws.close(1002, "No token specified");
         return;
     } else if (Object.keys(clients).indexOf(code) < 0) {
         ws.close(1002, "No client found with the id " + token + "!");
