@@ -31,34 +31,60 @@ app.get('/generate', function(request, response) {
 
     var token = generateToken();
 
-    clients.push({
-        token: token
-    });
+    clients[token] = {
+        activeSessions: [],
+        hardware: []
+    };
 
     response.json({
         registration_code: token
     });
 });
 
-app.ws('/', function(ws, request) {
+app.ws('/send', function(ws, request) {
 
-    var token = request.get("hwid");
+    var token = request.get("client_id");
 
     if (!token) {
-        ws.close();
-        console.log("no hardware id!");
+        ws.close(1002, "No client_id specified");
+        return;
+    } else if (Object.keys(clients).indexOf(code) < 0) {
+        ws.close(1002, "No client found with the id " + token + "!");
         return;
     }
 
-    console.log((new Date()) + " connection from client at  ");
-
-    ws.on('connect', function() {
-        //TODO: Somehow authenticate the user?? Or should this be done upon the request
-    });
+    console.log("Client " + token + " has connected!");
 
     ws.on('message', function(msg) {
-        console.log('message ' + msg);
-        //TODO: Handle messages to update the sensor data for the client
+        client[token].hardware = JSON.parse(msg);
+        if (client[token].activeSessions.length > 0) {
+            client[token].activeSessions.forEach(function(session) {
+               session.send(JSON.stringify(client[token].hardware));
+            });
+        }
+    });
+
+});
+
+app.ws('/receive', function(ws, request) {
+
+    var token = request.get("client_id");
+
+    if (!token) {
+        ws.close(1002, "No client_id specified");
+        return;
+    } else if (Object.keys(clients).indexOf(code) < 0) {
+        ws.close(1002, "No client found with the id " + token + "!");
+        return;
+    }
+
+    console.log("Client " + token + " has connected!");
+
+    client[token].activeSessions.push(ws);
+
+    ws.on('close', function() {
+        var index = client[token].activeSessions.indexOf(ws);
+        client[token].activeSessions.splice(index, 1);
     });
 });
 
